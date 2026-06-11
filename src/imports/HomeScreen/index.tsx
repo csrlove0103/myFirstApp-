@@ -1112,7 +1112,7 @@ export default function HomeScreen() {
   return (
     <div className="bg-[#1f1633] content-stretch flex flex-col isolate items-center relative size-full" data-name="Home Screen">
       <Button />
-      <Nav />
+
       <Header />
       <Main />
     </div>

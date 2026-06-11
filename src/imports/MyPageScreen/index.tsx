@@ -1082,7 +1082,7 @@ function Main() {
 export default function MyPageScreen() {
   return (
     <div className="bg-[#1f1633] content-stretch flex flex-col isolate items-start pb-[96px] relative size-full" data-name="My Page Screen">
-      <Nav />
+
       <Header />
       <Main />
     </div>

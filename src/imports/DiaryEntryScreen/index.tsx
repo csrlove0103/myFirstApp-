@@ -514,7 +514,7 @@ export default function DiaryEntryScreen() {
   return (
     <div className="bg-[#1f1633] content-stretch flex flex-col isolate items-start relative size-full" data-name="Diary Entry Screen">
       <Header />
-      <Nav />
+
       <Main />
     </div>
   );

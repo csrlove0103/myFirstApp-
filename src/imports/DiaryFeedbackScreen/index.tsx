@@ -841,7 +841,7 @@ function Main() {
 export default function DiaryFeedbackScreen() {
   return (
     <div className="bg-[#1f1633] content-stretch flex flex-col isolate items-start relative size-full" data-name="Diary Feedback Screen">
-      <Nav />
+
       <Header />
       <Main />
     </div>

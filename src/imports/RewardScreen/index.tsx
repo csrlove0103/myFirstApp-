@@ -1124,7 +1124,7 @@ function Main() {
 export default function RewardScreen() {
   return (
     <div className="bg-[#1f1633] content-stretch flex flex-col isolate items-start relative size-full" data-name="Reward Screen">
-      <Nav />
+
       <Header />
       <Main />
     </div>
