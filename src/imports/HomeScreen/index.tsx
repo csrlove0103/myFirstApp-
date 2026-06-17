@@ -1,5 +1,5 @@
+import { useState } from "react";
 import svgPaths from "./svg-io8rbzfi0l";
-import imgProfile from "./93261e682a4fc24925831eb042e025379dab45ab.png";
 import imgAestheticAbstractPurpleAndLimeGraphicWithSubtleStarsDigitalArtStyle from "./5e63dca68a2ba56e20577558fc3599fe8d4407c2.png";
 import { useUser } from "../../app/UserContext";
 
@@ -279,18 +279,51 @@ function Button1() {
 }
 
 function Profile() {
+  const { profileImage } = useUser();
   return (
     <div className="flex-[1_0_0] min-h-px relative w-full" data-name="Profile">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgProfile} />
+        {profileImage ? (
+          <img alt="profile" className="absolute left-0 max-w-none size-full top-0 object-cover" src={profileImage} />
+        ) : (
+          <div className="absolute inset-0 bg-[rgba(66,32,130,0.8)] flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="none" className="w-[22px] h-[22px]">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" fill="rgba(255,255,255,0.4)"/>
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 function Border() {
+  const { setProfileImage } = useUser();
+
+  const handleClick = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const result = ev.target?.result as string;
+        setProfileImage(result);
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  };
+
   return (
-    <div className="relative rounded-[9999px] shrink-0 size-[40px]" data-name="Border">
+    <div
+      className="relative rounded-[9999px] shrink-0 size-[40px] cursor-pointer"
+      data-name="Border"
+      onClick={handleClick}
+      title="프로필 사진 변경"
+    >
       <div className="content-stretch flex flex-col items-start justify-center overflow-clip relative rounded-[inherit] size-full">
         <Profile />
       </div>
@@ -473,10 +506,13 @@ function Section1() {
 }
 
 function Container13() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
       <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Bold','Noto_Sans_KR:Bold',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[18px] text-white tracking-[0.1055px] whitespace-nowrap">
-        <p className="leading-[27px]">2024년 5월</p>
+        <p className="leading-[27px]">{`${year}년 ${month}월`}</p>
       </div>
     </div>
   );
@@ -761,7 +797,7 @@ function Container35() {
 
 function Container15() {
   return (
-    <div className="gap-y-[16px] grid grid-cols-[repeat(2,minmax(0,1fr))] grid-rows-[repeat(2,minmax(0,1fr))] h-[130px] relative shrink-0 w-full" data-name="Container">
+    <div className="gap-y-[16px] grid grid-cols-[repeat(7,minmax(0,1fr))] grid-rows-[repeat(3,minmax(0,1fr))] h-[130px] relative shrink-0 w-full" data-name="Container">
       <Container16 />
       <Container17 />
       <Container18 />
@@ -772,17 +808,17 @@ function Container15() {
       <Container23 />
       <Container24 />
       <Container25 />
+      <Container32 />
       <Container26 />
+      <Container33 />
+      <Container34 />
       <BackgroundShadow />
       <Container27 />
+      <Container35 />
       <Container28 />
       <Container29 />
       <Container30 />
       <Container31 />
-      <Container32 />
-      <Container33 />
-      <Container34 />
-      <Container35 />
     </div>
   );
 }
@@ -967,28 +1003,30 @@ function Margin8() {
   );
 }
 
-function Paragraph() {
-  return (
-    <div className="[word-break:break-word] content-stretch flex flex-col font-bold items-center leading-[0] relative shrink-0 text-center whitespace-nowrap" data-name="Paragraph">
-      <div className="flex flex-col font-['Noto_Sans_KR:Bold',sans-serif] justify-center mb-[-0.75px] relative shrink-0 text-[13px] text-white tracking-[-0.1016px]">
-        <p className="leading-[16.25px]">출석 보상 받기</p>
-      </div>
-      <div className="flex flex-col font-['Plus_Jakarta_Sans:Bold','Noto_Sans_KR:Bold',sans-serif] justify-center relative shrink-0 text-[11px] text-[rgba(255,255,255,0.4)] tracking-[0.1396px]">
-        <p className="leading-[13.75px]">(클릭)</p>
-      </div>
-    </div>
-  );
-}
-
 function OverlayBorderOverlayBlur1() {
+  const [isRewardReceived, setIsRewardReceived] = useState(false);
+
   return (
-    <div className="backdrop-blur-[6px] bg-[rgba(66,32,130,0.25)] col-0 justify-self-stretch min-h-[140px] relative rounded-[32px] row-0 self-start shrink-0" data-name="Overlay+Border+OverlayBlur">
+    <div 
+      className="backdrop-blur-[6px] bg-[rgba(66,32,130,0.25)] col-0 justify-self-stretch min-h-[140px] relative rounded-[32px] row-0 self-start shrink-0 cursor-pointer" 
+      data-name="Overlay+Border+OverlayBlur"
+      onClick={() => setIsRewardReceived(true)}
+    >
       <div aria-hidden className="absolute border border-[rgba(203,48,224,0.2)] border-solid inset-0 pointer-events-none rounded-[32px]" />
       <div className="flex flex-col items-center justify-center min-h-[inherit] size-full">
         <div className="content-stretch flex flex-col items-center justify-center min-h-[inherit] px-[20px] py-[30px] relative size-full">
           <Margin7 />
           <Margin8 />
-          <Paragraph />
+          <div className="[word-break:break-word] content-stretch flex flex-col font-bold items-center leading-[0] relative shrink-0 text-center whitespace-nowrap" data-name="Paragraph">
+            <div className="flex flex-col font-['Noto_Sans_KR:Bold',sans-serif] justify-center mb-[-0.75px] relative shrink-0 text-[13px] text-white tracking-[-0.1016px]">
+              <p className="leading-[16.25px]">{isRewardReceived ? "리워드 받기 완료!" : "출석 보상 받기"}</p>
+            </div>
+            {!isRewardReceived && (
+              <div className="flex flex-col font-['Plus_Jakarta_Sans:Bold','Noto_Sans_KR:Bold',sans-serif] justify-center relative shrink-0 text-[11px] text-[rgba(255,255,255,0.4)] tracking-[0.1396px]">
+                <p className="leading-[13.75px]">(클릭)</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -1080,9 +1118,13 @@ function Img10() {
   );
 }
 
-function Section3() {
+function Section3({ onClick }: { onClick?: () => void }) {
   return (
-    <div className="backdrop-blur-[6px] bg-[rgba(66,32,130,0.25)] relative rounded-[32px] shrink-0 w-full" data-name="Section">
+    <div 
+      className="backdrop-blur-[6px] bg-[rgba(66,32,130,0.25)] relative rounded-[32px] shrink-0 w-full cursor-pointer" 
+      data-name="Section"
+      onClick={onClick}
+    >
       <div aria-hidden className="absolute border-2 border-[rgba(203,48,224,0.4)] border-solid inset-0 pointer-events-none rounded-[32px] shadow-[0px_10px_25px_0px_rgba(203,48,224,0.15)]" />
       <div className="flex flex-row items-center justify-center size-full">
         <div className="content-stretch flex items-center justify-between p-[20px] relative size-full">
@@ -1094,7 +1136,7 @@ function Section3() {
   );
 }
 
-function Main() {
+function Main({ onExpressionClick }: { onExpressionClick?: () => void }) {
   return (
     <div className="relative shrink-0 w-full z-[1]" data-name="Main">
       <div className="content-stretch flex flex-col gap-[24px] items-start pb-[128px] pt-[8px] px-[20px] relative size-full">
@@ -1102,19 +1144,17 @@ function Main() {
         <Section1 />
         <Section2 />
         <Container36 />
-        <Section3 />
+        <Section3 onClick={onExpressionClick} />
       </div>
     </div>
   );
 }
 
-export default function HomeScreen() {
+export default function HomeScreen({ onExpressionClick }: { onExpressionClick?: () => void }) {
   return (
     <div className="bg-[#1f1633] content-stretch flex flex-col isolate items-center relative size-full" data-name="Home Screen">
-      <Button />
-
       <Header />
-      <Main />
+      <Main onExpressionClick={onExpressionClick} />
     </div>
   );
 }

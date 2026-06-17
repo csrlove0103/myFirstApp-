@@ -1,3 +1,4 @@
+import { useState } from "react";
 import svgPaths from "./svg-7v96pz03yf";
 
 function Img() {
@@ -22,20 +23,27 @@ function Button() {
 }
 
 function Container1() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  const formatted = `${yyyy}. ${mm}. ${dd}`;
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
       <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Bold',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#cb30e0] text-[14px] tracking-[1.4px] uppercase w-[105.224px]">
-        <p className="leading-[21px]">2024. 05. 05</p>
+        <p className="leading-[21px]">{formatted}</p>
       </div>
     </div>
   );
 }
 
 function Container2() {
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayName = days[new Date().getDay()];
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
       <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Medium',sans-serif] font-medium justify-center leading-[0] relative shrink-0 text-[12px] text-[rgba(255,255,255,0.4)] tracking-[0.1406px] whitespace-nowrap">
-        <p className="leading-[18px]">Sunday</p>
+        <p className="leading-[18px]">{dayName}</p>
       </div>
     </div>
   );
@@ -340,25 +348,32 @@ function Container9() {
   );
 }
 
-function Container12() {
-  return (
-    <div className="content-stretch flex flex-[1_0_0] flex-col items-start min-w-px relative" data-name="Container">
-      <div className="[word-break:break-word] flex flex-col font-['Noto_Sans_KR:DemiLight',sans-serif] font-[350] justify-center leading-[0] relative shrink-0 text-[16px] text-[rgba(255,255,255,0.2)] w-full">
-        <p className="leading-[26px] mb-0">오늘 하루는 어땠나요? 외국어로 기록해보</p>
-        <p className="leading-[26px]">세요.</p>
-      </div>
-    </div>
-  );
-}
-
-function Textarea() {
+function Textarea({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
     <div className="bg-[#1f1633] flex-[1_0_0] min-h-px relative rounded-[12px] w-full" data-name="Textarea">
-      <div className="flex flex-row justify-center overflow-auto rounded-[inherit] size-full">
-        <div className="content-stretch flex items-start justify-center p-[24px] relative size-full">
-          <Container12 />
-        </div>
-      </div>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        maxLength={1000}
+        placeholder="오늘 하루는 어땠나요? 외국어로 기록해보세요."
+        style={{
+          width: "100%",
+          height: "100%",
+          background: "transparent",
+          border: "none",
+          outline: "none",
+          resize: "none",
+          padding: "24px",
+          color: "rgba(255,255,255,0.9)",
+          fontFamily: "'Noto Sans KR', sans-serif",
+          fontWeight: 350,
+          fontSize: "16px",
+          lineHeight: "26px",
+          boxSizing: "border-box",
+        }}
+        className="placeholder-[rgba(255,255,255,0.2)]"
+      />
+      <style>{`textarea::placeholder { color: rgba(255,255,255,0.2); }`}</style>
       <div aria-hidden className="absolute border border-[rgba(203,48,224,0.3)] border-solid inset-0 pointer-events-none rounded-[12px]" />
     </div>
   );
@@ -449,22 +464,23 @@ function Container13() {
   );
 }
 
-function Container16() {
+function Container16({ count }: { count: number }) {
   return (
     <div className="absolute bottom-[24px] content-stretch flex flex-col items-start right-[24px]" data-name="Container">
       <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Medium',sans-serif] font-medium justify-center leading-[0] relative shrink-0 text-[12px] text-[rgba(255,255,255,0.3)] tracking-[0.1523px] whitespace-nowrap">
-        <p className="leading-[18px]">0 / 1000</p>
+        <p className="leading-[18px]">{count} / 1000</p>
       </div>
     </div>
   );
 }
 
 function Container11() {
+  const [text, setText] = useState("");
   return (
     <div className="content-stretch flex flex-col h-[428px] items-start justify-center pb-[8px] relative shrink-0 w-full" data-name="Container">
-      <Textarea />
+      <Textarea value={text} onChange={setText} />
       <Container13 />
-      <Container16 />
+      <Container16 count={text.length} />
     </div>
   );
 }

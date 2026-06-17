@@ -1,5 +1,4 @@
 import svgPaths from "./svg-5cjwly4zvv";
-import imgUser from "./f578f9c2a181ef669150341163e63e6e9da01878.png";
 import { useUser } from "../../app/UserContext";
 
 function Svg() {
@@ -138,10 +137,19 @@ function Container4() {
 }
 
 function User() {
+  const { profileImage } = useUser();
   return (
     <div className="flex-[1_0_0] min-h-px relative w-full" data-name="User">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgUser} />
+        {profileImage ? (
+          <img alt="profile" className="absolute left-0 max-w-none size-full top-0 object-cover" src={profileImage} />
+        ) : (
+          <div className="absolute inset-0 bg-[rgba(66,32,130,0.8)] flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="none" className="w-[14px] h-[14px]">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" fill="rgba(255,255,255,0.5)"/>
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -241,10 +249,19 @@ function Header() {
 }
 
 function Profile() {
+  const { profileImage } = useUser();
   return (
     <div className="pointer-events-none relative rounded-[9999px] shrink-0 size-[80px]" data-name="Profile">
       <div className="absolute inset-0 overflow-hidden rounded-[9999px]">
-        <img alt="" className="absolute left-0 max-w-none size-full top-0" src={imgUser} />
+        {profileImage ? (
+          <img alt="profile" className="absolute left-0 max-w-none size-full top-0 object-cover" src={profileImage} />
+        ) : (
+          <div className="absolute inset-0 bg-[rgba(66,32,130,0.8)] rounded-[9999px] flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="none" className="w-[40px] h-[40px]">
+              <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" fill="rgba(255,255,255,0.4)"/>
+            </svg>
+          </div>
+        )}
       </div>
       <div aria-hidden className="absolute border-4 border-[rgba(203,48,224,0.3)] border-solid inset-0 rounded-[9999px]" />
     </div>
@@ -273,8 +290,32 @@ function BackgroundBorder1() {
 }
 
 function Container8() {
+  const { setProfileImage } = useUser();
+
+  const handleUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const result = ev.target?.result as string;
+        setProfileImage(result);
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  };
+
   return (
-    <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
+    <div
+      className="content-stretch flex flex-col items-start relative shrink-0 cursor-pointer"
+      data-name="Container"
+      onClick={handleUpload}
+      title="프로필 사진 등록"
+    >
       <Profile />
       <BackgroundBorder1 />
     </div>

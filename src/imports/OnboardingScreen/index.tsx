@@ -526,77 +526,98 @@ function Container14() {
   );
 }
 
-function Svg16() {
+function StarButton() {
+  // Uses the same star SVG path used throughout the app (HomeScreen, etc.)
+  // p27413540 viewBox 0 0 12 11 — scaled up to 160x147 by factor ~13.3
+  const starPath = "M7.03548 3.07317L11.075 1.86986L8.44076 4.97336L10.7152 8.04653L6.81339 6.89001L4.18041 9.99313L4.4025 6.17628L0.499359 5.02015L4.53891 3.81685L4.76099 1.15635e-06L7.03548 3.07317Z";
+
   return (
-    <div className="flex-[1_0_0] min-h-px overflow-clip relative w-[180px] flex items-center justify-center drop-shadow-[0_0_15px_rgba(255,221,0,0.6)]" data-name="SVG">
-      <svg className="block w-[140px] h-[140px]" fill="none" viewBox="0 0 200 200">
-        <path d="M 100 10 L 126 70 L 190 75 L 140 115 L 155 180 L 100 145 L 45 180 L 60 115 L 10 75 L 74 70 Z" fill="#FFDD00" stroke="black" strokeWidth="4" strokeLinejoin="round" />
+    <div
+      className="relative flex items-center justify-center"
+      style={{ width: 180, height: 166 }}
+    >
+      {/* Glow layer */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          filter: "blur(18px)",
+          background: "radial-gradient(ellipse at center, rgba(255,221,0,0.55) 0%, transparent 70%)",
+          borderRadius: "50%",
+        }}
+      />
+      {/* Star SVG — same path, large scale */}
+      <svg
+        viewBox="0 0 12 11"
+        fill="none"
+        style={{ width: 166, height: 152, position: "absolute", top: 7, left: 7 }}
+      >
+        <path
+          d={starPath}
+          fill="#FFDD00"
+          stroke="black"
+          strokeWidth="0.38"
+          strokeLinejoin="round"
+        />
       </svg>
-    </div>
-  );
-}
-
-function Svg15() {
-  return (
-    <div className="bg-[rgba(255,255,255,0)] content-stretch flex flex-col h-[170px] items-center justify-center relative shrink-0 w-[180px]" data-name="SVG">
-      <Svg16 />
-    </div>
-  );
-}
-
-function Margin() {
-  return (
-    <div className="content-stretch flex flex-col items-start pb-[2px] relative shrink-0" data-name="Margin">
-      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:ExtraBold',sans-serif] font-extrabold justify-center leading-[0] relative shrink-0 text-[#150f23] text-[18px] tracking-[-0.45px] whitespace-nowrap">
-        <p className="leading-[27px] drop-shadow-md">DAYLING</p>
+      {/* Text content centered inside star */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: 6,
+          gap: 4,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontWeight: 800,
+            fontSize: 15,
+            letterSpacing: "-0.4px",
+            color: "#150f23",
+            lineHeight: 1,
+          }}
+        >
+          DAYLING
+        </span>
+        <span
+          style={{
+            fontFamily: "'Noto Sans KR', sans-serif",
+            fontWeight: 700,
+            fontSize: 13,
+            color: "#150f23",
+            lineHeight: 1.2,
+          }}
+        >
+          시작하기
+        </span>
+        <span
+          style={{
+            fontFamily: "'Noto Sans KR', sans-serif",
+            fontWeight: 500,
+            fontSize: 9,
+            color: "rgba(21,15,35,0.55)",
+            letterSpacing: "0.1px",
+            lineHeight: 1,
+            marginTop: 2,
+          }}
+        >
+          탭하세요
+        </span>
       </div>
-    </div>
-  );
-}
-
-function Margin1() {
-  return (
-    <div className="content-stretch flex flex-col items-start pb-[4px] relative shrink-0" data-name="Margin">
-      <div className="[word-break:break-word] flex flex-col font-['Noto_Sans_KR:Bold',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#150f23] text-[16px] tracking-[0.0469px] whitespace-nowrap">
-        <p className="leading-[24px]">시작하기!!</p>
-      </div>
-    </div>
-  );
-}
-
-function Overlay() {
-  return (
-    <div className="bg-[rgba(21,15,35,0.1)] content-stretch flex flex-col items-start opacity-80 px-[8px] py-[2px] relative rounded-[4px] shrink-0" data-name="Overlay">
-      <div className="[word-break:break-word] flex flex-col font-['Noto_Sans_KR:Medium',sans-serif] font-medium justify-center leading-[0] relative shrink-0 text-[#150f23] text-[11px] tracking-[0.0645px] whitespace-nowrap">
-        <p className="leading-[16.5px]">이곳을 클릭하세요</p>
-      </div>
-    </div>
-  );
-}
-
-function Container17() {
-  return (
-    <div className="absolute content-stretch flex flex-col inset-0 items-center justify-center pt-[8px]" data-name="Container">
-      <Margin />
-      <Margin1 />
-      <Overlay />
-    </div>
-  );
-}
-
-function Container16() {
-  return (
-    <div className="content-stretch flex items-center justify-center relative shrink-0" data-name="Container">
-      <Svg15 />
-      <Container17 />
     </div>
   );
 }
 
 function Container15() {
   return (
-    <div className="absolute bottom-[40px] content-stretch flex flex-col items-center right-[24px]" data-name="Container">
-      <Container16 />
+    <div className="absolute bottom-[32px] content-stretch flex flex-col items-center right-[16px]" data-name="Container">
+      <StarButton />
     </div>
   );
 }

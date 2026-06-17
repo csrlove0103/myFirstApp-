@@ -229,10 +229,16 @@ function Container6() {
 }
 
 function Container7() {
+  const today = new Date();
+  const formatted = today.toLocaleDateString("en-US", {
+    month: "long",
+    day: "2-digit",
+    year: "numeric",
+  });
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0" data-name="Container">
       <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Medium',sans-serif] font-medium justify-center leading-[0] relative shrink-0 text-[12px] text-[rgba(255,255,255,0.4)] tracking-[0.0703px] whitespace-nowrap">
-        <p className="leading-[18px]">May 05, 2024</p>
+        <p className="leading-[18px]">{formatted}</p>
       </div>
     </div>
   );

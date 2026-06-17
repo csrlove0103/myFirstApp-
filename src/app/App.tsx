@@ -126,7 +126,7 @@ function AppInner() {
       case "home":
         return (
           <div style={{ position: "relative", width: "100%", minHeight: "100%" }}>
-            <HomeScreen />
+            <HomeScreen onExpressionClick={() => setScreen("expressions")} />
           </div>
         );
 
@@ -134,7 +134,7 @@ function AppInner() {
         return (
           <div style={{ position: "relative", width: "100%", minHeight: "100%" }}>
             <DiaryEntryScreen />
-            {/* Overlay on "기록 완료하기" submit button */}
+            {/* Overlay on "기록 완료하기" submit button - only covers the button area at bottom */}
             <button
               aria-label="기록 완료하기"
               onClick={() => setScreen("loading")}
@@ -144,10 +144,11 @@ function AppInner() {
                 left: 24,
                 right: 24,
                 height: 60,
-                zIndex: 100,
+                zIndex: 10,
                 background: "transparent",
                 border: "none",
                 cursor: "pointer",
+                pointerEvents: "auto",
               }}
             />
             {/* Back button (left chevron) in header */}
@@ -160,7 +161,7 @@ function AppInner() {
                 left: 24,
                 width: 40,
                 height: 40,
-                zIndex: 100,
+                zIndex: 10,
                 background: "transparent",
                 border: "none",
                 cursor: "pointer",
